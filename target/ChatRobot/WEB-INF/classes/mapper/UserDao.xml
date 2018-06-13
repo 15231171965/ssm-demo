@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.zl.dao.IUserDao">
+    <resultMap id="user" type="com.zl.model.User">
+        <!--<result property="username" column="username"></result>-->
+    </resultMap>
+    <select id="queryById" resultType="com.zl.model.User">
+        SELECT user_name,password FROM user WHERE id = #{id}
+    </select>
+    <delete id="delete">
+        delete from USER where id=#{id}
+    </delete>
+    <insert id="insert" parameterType="com.zl.model.User">
+      insert INTO user
+      VALUES
+      (NULL ,#{email},#{password},#{userName},#{role},#{status},#{regTime},#{regIp})
+    </insert>
+
+    <select id="query" parameterType="com.zl.model.User" resultType="com.zl.model.User">
+        SELECT * FROM user
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="role != null and role != ''">
+                and role = #{role}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="regTime != null and regTime != ''">
+                and regTime = #{regTime}
+            </if>
+            <if test="regIp != null and regIp != ''">
+                and regIp = #{regIp}
+            </if>
+        </where>
+    </select>
+    <select id="login" resultType="com.zl.model.User">
+        SELECT * from user where user_name=#{userName} and password=#{password}
+    </select>
+</mapper>
